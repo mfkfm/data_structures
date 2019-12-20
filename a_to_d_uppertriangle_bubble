@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void yerdegis(int *a, int *b){
+	int c=0;
+	c=*a;
+	*a=*b;
+	*b=c;
+	}
+void bubble(int dizi[], int boy){
+	int i,j;
+	for(i=0; i < boy; i++)
+    	for(j=boy; j>i; j--){
+   			if(dizi[j-2]>dizi[j-1])
+			yerdegis(&dizi[j-1], &dizi[j-2]);
+	}
+}
+void yazdir(int dizi[],int diziboyu){
+	int i;
+	for(i=0;i<diziboyu;i++){
+    	printf("%d ",dizi[i]);
+	}
+}
+void ustucgenselsutun(int dizi[]){
+	int i,j;
+	for(i=0; i < 25; i++){
+	   	for(j=25; j>i; j--){
+   			if(dizi[j]==0)
+			yerdegis(&dizi[j], &dizi[j+1]);
+		}
+	}
+}
+void yenidiziyeatma(int dizi[], int yeni[], int x){
+	int i,j=x,k,a=0;
+	for(i=0; i < x; i++){
+			k=j*(j-1)/2+i;
+			yeni[a]=dizi[k];
+			++a;
+	}
+}
+int main(){
+	
+	int a[5][5]={{42,36, 17, 26, 18},
+				       {0, 23, 12, 22, 15},
+				       {0,  0, 44,  8,  9},
+				       {0,  0,  0, 16, 20},
+				       {0,  0,  0,  0,  5}};
+	int d[25]={};
+    int i,j,k=0;
+      	for(i = 0; i <5; i++){
+          	for(j = 0; j <5; j++){
+				d[k]=a[j][i];
+				k++;
+		}
+	} 	   
+	ustucgenselsutun(d);
+	d[15]=d[25];	
+	yazdir(d, 15);
+	printf("\n");
+	printf("Hangi sutun siralansin? \n");
+	int x;
+	scanf("%d", &x);
+	int yeni[5]={};
+	printf("Siralanacak sutun= %d \n", x);
+	yenidiziyeatma(d, yeni, x);
+	yazdir(yeni, x);
+	printf("\n");
+	bubble(yeni, x);
+	yazdir(yeni, x);
+	
+}
+
