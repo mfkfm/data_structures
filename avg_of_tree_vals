@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include<stdlib.h>
+
+struct agac{
+	int data;
+	struct agac * sol;
+	struct agac * sag;
+};
+
+typedef struct agac node;
+
+node * ekle (node *agac, int x){
+	if(agac==NULL){
+		node *root= (node*)malloc(sizeof(node));
+		root->sol=NULL;
+		root->sag=NULL;
+		root->data=x;
+		return root;
+	}
+	if(agac->data > x){
+		agac->sag=ekle(agac->sag, x);
+		return agac;
+	}
+	agac->sol=ekle(agac->sol, x);
+	return agac;
+}
+
+int count(node *agac){
+	int c=1;
+	if(agac==NULL)
+	return 0;
+	else{
+		c+=count(agac->sol);
+		c+=count(agac->sag);
+		return c;
+	}
+}
+int agactandiziye(node *agac, int *dizi, int i){
+    if (agac == NULL) return i;
+
+    if (agac->sag != NULL) i = agactandiziye(agac->sag, dizi, i);
+	dizi[i] = agac->data;
+    i++;
+    if (agac->sol != NULL) i = agactandiziye(agac->sol, dizi, i);
+
+    return i;
+}
+
+int main(){
+	int i;
+	int size;
+	node * agac=NULL;
+	agac=ekle(agac, 12);
+	agac=ekle(agac, 200);
+	agac=ekle(agac, 190);
+	agac=ekle(agac, 213);
+	agac=ekle(agac, 215);
+	agac=ekle(agac, 216);
+	agac=ekle(agac, 56);
+	agac=ekle(agac, 24);
+	agac=ekle(agac, 18);
+	agac=ekle(agac, 27);
+	agac=ekle(agac, 28);
+	agac=ekle(agac, 17);
+	agac=ekle(agac, 19);
+	//1235
+	//95
+	int dizi[13];
+	size = count(agac);
+	dizi[size]=NULL;
+	
+	printf("Agactaki degerlerin sayisi= %d" , size);
+	printf(" \n");
+	agactandiziye(agac, dizi, 0);
+	for(i=0; i<size; i++){
+		printf("%d  ", dizi[i]);
+	}
+	int sum=0;
+	for(i=0; i<size; i++){
+		sum+=dizi[i];
+	}
+	printf("\nAgactaki degerlerin Toplami= %d \n", sum);
+	int avg=0;
+	avg=sum/size;
+	printf("\nAgactaki degerlerin Ortalamasi= %d \n", avg);
+}
